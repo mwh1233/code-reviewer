@@ -553,7 +553,6 @@ bytedance-codereviewer/
 │   │   ├── snapshot_builder.py     # 不可变快照构建
 │   │   ├── diff_preprocessor.py    # Diff 分片、过滤、语言识别
 │   │   ├── tool_engine.py          # 工具执行引擎（规则链路兼容）
-│   │   ├── llm_reviewer.py         # LLM 审查适配层
 │   │   ├── llm_provider_factory.py # LLM Provider 工厂 + 预算路由
 │   │   └── scm_provider_factory.py # SCM Provider 工厂（GitHub/GitLab）
 │   ├── tools/
