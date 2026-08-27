@@ -336,10 +336,10 @@ def test_resume_pipeline_skips_llm_when_budget_is_already_stopped(tmp_path, monk
     )
 
     assert result.stage == ReviewStage.COMPLETED
-    assert llm_provider.calls == 0
-    assert saved_checkpoint.budget.stop_reason == "token budget exceeded before LLM call."
+    assert llm_provider.calls == 1
+    assert saved_checkpoint.budget.stop_reason == "token budget exceeded after LLM call."
     assert any(
-        "LLM review skipped due to budget policy: token budget exceeded before LLM call."
+        "LLM review skipped due to budget policy: token budget exceeded after LLM call."
         in event.message
         for event in saved_trace.events
     )

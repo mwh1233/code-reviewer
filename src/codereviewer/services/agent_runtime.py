@@ -35,6 +35,8 @@ class AgentRuntimeConfig(BaseModel):
     max_tool_rounds: int = 15
     max_empty_rounds: int = 3
     grace_round_enabled: bool = True
+    max_tool_calls_per_round: int = 3
+    max_tool_output_chars: int = 3000
 
 
 class AgentRuntimeResult(BaseModel):
@@ -164,7 +166,7 @@ class AgentRuntime:
                     if not decision.should_call_llm:
                         if (
                             self._config.grace_round_enabled
-                            and round_findings
+                            and not in_grace_round
                         ):
                             in_grace_round = True
                             grace_round_remaining = 1
@@ -175,6 +177,7 @@ class AgentRuntime:
                                         "预算即将耗尽。不要再调用分析工具。"
                                         "请提交你已经确认的剩余 code_comment 结果，"
                                         "然后调用 task_done 结束审查。"
+                                        "如果你还没有发现问题，请直接调用 task_done。"
                                     ),
                                 )
                             )
@@ -187,6 +190,7 @@ class AgentRuntime:
                                     "round": round_index,
                                     "tool_round": tool_round,
                                     "comments_pending": len(round_findings),
+                                    "trigger": "budget_exhausted",
                                 },
                             )
                             continue
@@ -277,21 +281,55 @@ class AgentRuntime:
                     and not response.tool_calls
                     and not has_visible_content
                 ):
-                    stop_reason = "response_truncated"
                     self._trace_manager.append_event(
                         review_id=review_id,
                         trace=trace,
                         stage=ReviewStage.FINDINGS_GENERATED,
                         message=(
-                            "Agent runtime stopped after an empty truncated LLM response "
-                            "to avoid resubmitting invalid context."
+                            "Agent runtime detected an empty truncated LLM response."
                         ),
                         details={
                             "round": round_index,
                             "tool_round": tool_round,
                             "finish_reason": response.finish_reason,
+                            "in_grace_round": in_grace_round,
                         },
                     )
+                    if (
+                        self._config.grace_round_enabled
+                        and not in_grace_round
+                    ):
+                        in_grace_round = True
+                        grace_round_remaining = 1
+                        messages.append(
+                            ToolChatMessage(
+                                role="system",
+                                content=(
+                                    "上一轮 LLM 输出因上下文过长被截断，"
+                                    "无法继续分析。这是你的最后一轮机会："
+                                    "请立即提交你已经发现的问题(code_comment)，"
+                                    "或调用 task_done 结束审查。"
+                                    "不要再调用任何分析工具。"
+                                ),
+                            )
+                        )
+                        self._trace_manager.append_event(
+                            review_id=review_id,
+                            trace=trace,
+                            stage=ReviewStage.FINDINGS_GENERATED,
+                            message=(
+                                "Agent runtime entered grace round after "
+                                "response truncation."
+                            ),
+                            details={
+                                "round": round_index,
+                                "tool_round": tool_round,
+                                "comments_pending": len(round_findings),
+                                "trigger": "response_truncated",
+                            },
+                        )
+                        continue
+                    stop_reason = "response_truncated"
                     break
 
                 if not response.tool_calls:
@@ -306,9 +344,46 @@ class AgentRuntime:
 
                 empty_rounds = 0
                 task_done_called = False
+                analysis_tool_calls_in_round = 0
+                max_analysis_tools = self._config.max_tool_calls_per_round
                 for tool_call in response.tool_calls:
                     tool_calls_total += 1
-                    if tool_call.name == "code_comment":
+                    is_control_tool = tool_call.name in self._CONTROL_TOOL_NAMES
+                    if not is_control_tool:
+                        analysis_tool_calls_in_round += 1
+                    if (
+                        not is_control_tool
+                        and analysis_tool_calls_in_round > max_analysis_tools
+                    ):
+                        result_message = json.dumps(
+                            {
+                                "tool_name": tool_call.name,
+                                "error": (
+                                    f"本轮分析工具调用已达上限({max_analysis_tools})，"
+                                    "本调用未执行。请先提交已发现的问题(code_comment) "
+                                    "或结束审查(task_done)，下一轮可继续分析。"
+                                ),
+                                "skipped": True,
+                            },
+                            ensure_ascii=True,
+                        )
+                        self._trace_manager.append_event(
+                            review_id=review_id,
+                            trace=trace,
+                            stage=ReviewStage.FINDINGS_GENERATED,
+                            message=(
+                                f"Agent runtime skipped tool {tool_call.name} "
+                                f"(round limit {max_analysis_tools})."
+                            ),
+                            details={
+                                "round": round_index,
+                                "tool_round": tool_round,
+                                "tool_call_id": tool_call.id,
+                                "tool_name": tool_call.name,
+                                "analysis_tool_count": analysis_tool_calls_in_round,
+                            },
+                        )
+                    elif tool_call.name == "code_comment":
                         result_message, finding = self._handle_code_comment(
                             tool_call_id=tool_call.id,
                             arguments=tool_call.arguments,
@@ -629,15 +704,28 @@ class AgentRuntime:
                 "truncated": result.truncated,
             },
         )
-        return json.dumps(
-            {
+        result_payload = result.payload
+        result_dict = {
+            "tool_name": tool_name,
+            "payload": result_payload,
+            "truncated": result.truncated,
+            "error": result.error,
+        }
+        result_message = json.dumps(result_dict, ensure_ascii=True)
+        max_chars = self._config.max_tool_output_chars
+        if len(result_message) > max_chars and result_payload is not None:
+            payload_json = json.dumps(result_payload, ensure_ascii=True)
+            keep_chars = max(200, max_chars - 400)
+            truncated_payload = payload_json[:keep_chars] + "\n...[truncated]"
+            result_dict = {
                 "tool_name": tool_name,
-                "payload": result.payload,
-                "truncated": result.truncated,
+                "payload": truncated_payload,
+                "truncated": True,
                 "error": result.error,
-            },
-            ensure_ascii=True,
-        )
+                "original_size": len(payload_json),
+            }
+            result_message = json.dumps(result_dict, ensure_ascii=True)
+        return result_message
 
     def _estimate_chat_tokens(
         self,
@@ -703,6 +791,9 @@ class AgentRuntime:
                 "- 需要理解函数或类的使用方式时调用 find_references。",
                 "- 每发现一个具体问题就调用一次 code_comment，可以调用多次。",
                 "- 没有更多有依据的问题需要报告时调用 task_done。",
+                "- 每次最多调用 2 个 read_diff 或 read_file，逐个文件审查，不要一次性批量读取。",
+                "- 每审查完一个文件，如果发现问题，立即调用 code_comment 提交，不要等全部文件读完再统一提交。",
+                "- 禁止在没有提交任何 code_comment 的情况下连续调用超过 3 个分析工具(read_diff/read_file/find_references)。",
                 "",
                 "输出约束",
                 "- 每个 code_comment 都必须包含 file、line、summary、severity、category、explanation。",

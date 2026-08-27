@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 from pydantic import BaseModel, Field
 
 from codereviewer.domain.errors import ToolExecutionError
@@ -83,12 +85,30 @@ def find_references(
         if truncated:
             break
 
-    return ToolResult(
-        tool_name="find_references",
-        payload={
+    payload = {
+        "query": request.query,
+        "searched_files": search_paths,
+        "matches": matches,
+    }
+    serialized = json.dumps(payload, ensure_ascii=True)
+    max_chars = 8000
+    if len(serialized) > max_chars and matches:
+        while matches and len(json.dumps({
             "query": request.query,
             "searched_files": search_paths,
             "matches": matches,
-        },
+        }, ensure_ascii=True)) > max_chars:
+            matches.pop()
+            truncated = True
+        payload = {
+            "query": request.query,
+            "searched_files": search_paths,
+            "matches": matches,
+            "truncated_note": "matches truncated to fit output limit",
+        }
+
+    return ToolResult(
+        tool_name="find_references",
+        payload=payload,
         truncated=truncated,
     )

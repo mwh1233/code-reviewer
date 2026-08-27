@@ -585,7 +585,7 @@ def test_agent_runtime_limits_grace_round_to_one_finalization_call(tmp_path):
     ]
 
 
-def test_agent_runtime_stops_on_empty_truncated_response_without_replaying_it(tmp_path):
+def test_agent_runtime_enters_grace_round_after_empty_truncated_response(tmp_path):
     provider = _ScriptedLLMProvider(
         [
             ToolChatResponse(
@@ -595,6 +595,20 @@ def test_agent_runtime_stops_on_empty_truncated_response_without_replaying_it(tm
                 output_tokens=1024,
                 estimated_cost=0.02,
                 finish_reason="length",
+            ),
+            ToolChatResponse(
+                content="",
+                tool_calls=[
+                    ToolCall(
+                        id="call-grace-1",
+                        name="task_done",
+                        arguments='{"reason":"no findings"}',
+                    )
+                ],
+                input_tokens=50,
+                output_tokens=20,
+                estimated_cost=0.001,
+                finish_reason="stop",
             ),
         ]
     )
@@ -613,6 +627,47 @@ def test_agent_runtime_stops_on_empty_truncated_response_without_replaying_it(tm
         existing_findings=[],
         trace=trace,
         review_id="review-agent-truncated123",
+        provider=_StubSCMProvider(),
+    )
+
+    assert result.stop_reason == "task_done"
+    assert result.comments_submitted == 0
+    assert len(provider.requests) == 2
+    assert [tool["name"] for tool in provider.requests[1].tools] == [
+        "code_comment",
+        "task_done",
+    ]
+
+
+def test_agent_runtime_stops_on_truncation_when_grace_round_disabled(tmp_path):
+    provider = _ScriptedLLMProvider(
+        [
+            ToolChatResponse(
+                content="",
+                tool_calls=[],
+                input_tokens=100,
+                output_tokens=1024,
+                estimated_cost=0.02,
+                finish_reason="length",
+            ),
+        ]
+    )
+    config = build_app_config(artifact_root=tmp_path / "artifacts")
+    trace_manager = TraceManager(FileTraceStore(config.artifact_root))
+    trace = trace_manager.create("review-agent-truncated-disabled")
+    runtime = AgentRuntime(
+        llm_provider=provider,
+        tool_registry=build_builtin_tool_registry(),
+        trace_manager=trace_manager,
+        budget_manager=BudgetManager(BudgetSnapshot(token_limit=2000, cost_limit=1.0)),
+        config=AgentRuntimeConfig(grace_round_enabled=False),
+    )
+
+    result = runtime.run(
+        snapshot=_build_snapshot(),
+        existing_findings=[],
+        trace=trace,
+        review_id="review-agent-truncated-disabled",
         provider=_StubSCMProvider(),
     )
 

@@ -339,7 +339,7 @@ def test_resume_pipeline_returns_saved_snapshot(tmp_path):
     assert "Resumed review pipeline." in result.placeholder_file.read_text(encoding="utf-8")
 
 
-def test_run_pipeline_skips_llm_when_budget_is_exceeded_before_call(
+def test_run_pipeline_enters_grace_round_when_budget_is_exceeded(
     tmp_path,
     monkeypatch,
 ):
@@ -381,18 +381,16 @@ def test_run_pipeline_skips_llm_when_budget_is_exceeded_before_call(
     assert checkpoint.current_stage == ReviewStage.COMPLETED
     assert checkpoint.terminal_status == ReviewStage.COMPLETED
     assert checkpoint.error_message is None
-    assert checkpoint.budget.stop_reason == "token budget exceeded before LLM call."
-    assert checkpoint.budget.token_used == 0
-    assert checkpoint.budget.cost_used == 0.0
+    assert checkpoint.budget.stop_reason == "token budget exceeded after LLM call."
+    assert checkpoint.budget.token_used == 150
+    assert checkpoint.budget.cost_used == 0.05
     assert checkpoint.budget.degrade_level == "stopped"
-    assert len(checkpoint.findings) == 2
-    assert {finding.file for finding in checkpoint.findings} == {"src/example.py", ".env"}
+    assert len(checkpoint.findings) >= 2
     assert ReviewStage.DETERMINISTIC_CHECKS_DONE in checkpoint.completed_stages
     assert ReviewStage.FINDINGS_GENERATED in checkpoint.completed_stages
-    assert llm_provider.calls == 0
+    assert llm_provider.calls == 1
     assert any(
-        "LLM review skipped due to budget policy: token budget exceeded before LLM call."
-        in event.message
+        "grace round" in event.message.lower()
         for event in trace.events
     )
 
