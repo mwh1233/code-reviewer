@@ -119,6 +119,41 @@ artifacts/reviews/{review_id}/
 
 ## 核心架构
 
+### 整体数据流（Mermaid）
+
+```mermaid
+flowchart LR
+    A[CLI 输入<br/>PR/MR URL 或 repo+branch] --> B[阶段①<br/>输入解析校验]
+    B --> C[阶段②<br/>快照生成<br/>不可变 ReviewSnapshot]
+    C --> D[阶段③<br/>Diff 预处理<br/>安全扫描]
+    D --> E[阶段④<br/>确定性规则检查]
+    E --> F[阶段⑤<br/>LLM 语义审查<br/>AgentRuntime 多轮 tool-use]
+    F --> G[阶段⑥<br/>证据验证<br/>置信度判定]
+    G --> H[阶段⑦<br/>输出准备<br/>Markdown + JSON]
+    H --> I[阶段⑧<br/>评论发布<br/>head SHA 校验]
+
+    J[Budget 预算管理器] -.->|每次 LLM 调用前门禁| F
+    K[Checkpoint 持久化] -.->|每阶段结束保存| B
+    K -.-> C
+    K -.-> D
+    K -.-> E
+    K -.-> F
+    K -.-> G
+    K -.-> H
+    K -.-> I
+    L[Trace 可观测] -.->|全链路事件+工件| B
+    L -.-> F
+    L -.-> I
+    M[Security 安全脱敏] -.->|进入 LLM 前清洗| D
+    M -.-> F
+    M -.-> I
+
+    style A fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
+    style F fill:#2d1b4e,stroke:#a78bfa,color:#e2e8f0
+    style I fill:#1a3a2e,stroke:#34d399,color:#e2e8f0
+    style J fill:#4a2c1a,stroke:#fbbf24,color:#e2e8f0
+```
+
 ### 8 阶段 Pipeline
 
 ```
@@ -153,6 +188,238 @@ artifacts/reviews/{review_id}/
 - **控制工具**：`code_comment`（提交候选评论）/ `task_done`（结束）
 - 外层最多 2 轮，内层最多 15 个 tool round
 - 通过空响应上限、轮次上限和预算控制终止
+
+---
+
+## Agent 工作流结构
+
+`AgentRuntime` 采用**外层多轮 + 内层 tool-use** 的双层循环，是整个审查系统的核心执行引擎。
+
+### 双层循环架构（Mermaid）
+
+```mermaid
+flowchart TB
+    subgraph Outer["外层循环（max 2 轮）"]
+        direction TB
+        BuildMsg["构建本轮 messages<br/>system prompt + diff 摘要 + 既有 findings + 审查指令"]
+        subgraph Inner["内层 tool-use 循环（max 15 round）"]
+            direction TB
+            BudgetCheck["① 预算门禁<br/>估算 token/cost → 降级级别"]
+            LLMCall["② 调用 LLM<br/>chat_with_tools"]
+            HandleResp["③ 处理响应"]
+            ExecTools["④ 执行 tool_calls<br/>每轮最多 3 个分析工具"]
+            AppendResult["⑤ 工具结果追加回对话"]
+
+            BudgetCheck --> LLMCall --> HandleResp
+            HandleResp -->|有 tool_calls| ExecTools --> AppendResult --> BudgetCheck
+            HandleResp -->|空响应/截断| GraceCheck{"Grace Round?"}
+            GraceCheck -->|触发| GraceRound["Grace Round<br/>仅 code_comment + task_done"]
+            GraceCheck -->|连续 3 次空| Stop1["停止: empty_rounds"]
+            GraceRound --> Stop2["停止: budget_exhausted"]
+        end
+        BuildMsg --> Inner
+        RoundEnd["本轮结束: 记录 round 摘要到 trace"]
+        Inner --> RoundEnd
+    end
+
+    Outer -->|task_done / max_rounds / no_new_findings| Final["最终 Findings 列表"]
+
+    style BudgetCheck fill:#4a2c1a,stroke:#fbbf24,color:#e2e8f0
+    style LLMCall fill:#2d1b4e,stroke:#a78bfa,color:#e2e8f0
+    style GraceRound fill:#4a1a1a,stroke:#f87171,color:#e2e8f0
+    style Final fill:#1a3a2e,stroke:#34d399,color:#e2e8f0
+```
+
+### 工具调用与执行流程（Mermaid）
+
+```mermaid
+flowchart LR
+    LLM["LLM 响应<br/>tool_calls[]"] --> Dispatch{"工具类型"}
+
+    Dispatch -->|控制工具| Control["AgentRuntime 内部处理"]
+    Dispatch -->|分析工具| Analysis["委托 ToolRegistry 执行"]
+
+    Control --> CC["code_comment<br/>校验 file/line → 创建 Finding"]
+    Control --> TD["task_done<br/>标记结束 → 跳出循环"]
+
+    Analysis --> LCF["list_changed_files"]
+    Analysis --> RD["read_diff"]
+    Analysis --> RF["read_file"]
+    Analysis --> FR["find_references"]
+
+    LCF --> Truncate["输出统一截断<br/>max 3000 chars"]
+    RD --> Truncate
+    RF --> Truncate
+    FR --> Truncate
+
+    Truncate --> ToolMsg["作为 tool 消息<br/>追加回对话"]
+    CC --> ToolMsg
+    ToolMsg --> NextRound["下一轮 LLM 调用"]
+
+    style CC fill:#1a3a2e,stroke:#34d399,color:#e2e8f0
+    style TD fill:#4a1a1a,stroke:#f87171,color:#e2e8f0
+    style Truncate fill:#4a2c1a,stroke:#fbbf24,color:#e2e8f0
+```
+
+### 预算四级降级（Mermaid）
+
+```mermaid
+flowchart TD
+    Start["每次 LLM 调用前"] --> Check{"预算使用率"}
+
+    Check -->|0%–60%| Normal["normal<br/>完整上下文 + 主模型"]
+    Check -->|60%–85%| Degraded["degraded<br/>截断上下文 + 主模型"]
+    Check -->|85%–100%| Essential["essential_only<br/>只关注正确性/安全 + fallback 模型"]
+    Check -->|100%| Stopped["stopped<br/>停止 LLM 调用"]
+
+    Stopped --> Grace{"当前轮已有 finding<br/>或响应被截断?"}
+    Grace -->|是| GraceRound["进入 Grace Round<br/>仅 1 次, 仅 code_comment + task_done"]
+    Grace -->|否| StopNow["直接停止, 保留已有结果"]
+
+    GraceRound --> FinalStop["执行 1 次后停止"]
+
+    style Normal fill:#1a3a2e,stroke:#34d399,color:#e2e8f0
+    style Degraded fill:#334155,stroke:#94a3b8,color:#e2e8f0
+    style Essential fill:#4a2c1a,stroke:#fbbf24,color:#e2e8f0
+    style Stopped fill:#4a1a1a,stroke:#f87171,color:#e2e8f0
+    style GraceRound fill:#7c2d12,stroke:#fb923c,color:#e2e8f0
+```
+
+### 工作流总览
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      外层循环（max 2 轮）                         │
+│                                                                 │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  构建本轮 messages                                          │  │
+│  │  ┌─────────────────────────────────────────────────────┐  │  │
+│  │  │ system prompt（审查原则/严重程度/工具使用指南/禁止事项）│  │  │
+│  │  │ user content                                         │  │  │
+│  │  │  ├─ 变更摘要（文件数/新增行/删除行/文件列表）          │  │  │
+│  │  │  ├─ 规则引擎已发现问题（第 1 轮注入，避免重复）        │  │  │
+│  │  │  ├─ 上一轮已确认问题（第 2 轮注入，避免重复）          │  │  │
+│  │  │  ├─ Diff 内容（脱敏后，截断 12000 chars）             │  │  │
+│  │  │  └─ 审查指令                                          │  │  │
+│  │  └─────────────────────────────────────────────────────┘  │  │
+│  │                                                           │  │
+│  │  ┌───────────────────────────────────────────────────┐   │  │
+│  │  │          内层 tool-use 循环（max 15 round）         │   │  │
+│  │  │                                                   │   │  │
+│  │  │  ① 预算门禁 → 估算 token/cost → 决定降级级别        │   │  │
+│  │  │     ├─ normal/degraded/essential_only → 继续       │   │  │
+│  │  │     ├─ stopped + 有 finding → 进入 Grace Round     │   │  │
+│  │  │     └─ stopped + Grace Round 已用 → 停止           │   │  │
+│  │  │                                                   │   │  │
+│  │  │  ② 调用 LLM（chat_with_tools，传入 tools schema）   │   │  │
+│  │  │     ├─ 记录 prompt/response 到 trace artifacts     │   │  │
+│  │  │     └─ 记录实际 token/cost 使用量                  │   │  │
+│  │  │                                                   │   │  │
+│  │  │  ③ 处理响应                                        │   │  │
+│  │  │     ├─ finish_reason=length 且空 → Grace Round/停止│   │  │
+│  │  │     ├─ 无 tool_calls → empty_rounds++              │   │  │
+│  │  │     │   └─ 连续 3 次空响应 → 停止                  │   │  │
+│  │  │     └─ 有 tool_calls → 逐个执行（见下方）           │   │  │
+│  │  │                                                   │   │  │
+│  │  │  ④ 执行 tool_calls（每轮最多 3 个分析工具）          │   │  │
+│  │  │     ├─ code_comment → 校验参数 → 创建 Finding      │   │  │
+│  │  │     ├─ task_done → 标记结束 → 跳出循环             │   │  │
+│  │  │     └─ 分析工具 → 委托 ToolRegistry → 结果截断     │   │  │
+│  │  │                                                   │   │  │
+│  │  │  ⑤ 工具结果作为 tool 消息追加回对话 → 回到 ①        │   │  │
+│  │  └───────────────────────────────────────────────────┘   │  │
+│  │                                                           │  │
+│  │  本轮结束：记录 round 摘要到 trace                        │  │
+│  └───────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  外层终止：task_done / budget_exhausted / empty_rounds /        │
+│           response_truncated / no_new_findings / max_rounds     │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 双层循环设计
+
+| 循环 | 上限 | 目的 | 关键行为 |
+|---|---|---|---|
+| **外层** | 2 轮 | 分阶段深入审查，避免遗漏 | 第 2 轮注入第 1 轮已确认 finding，要求模型挖掘新问题 |
+| **内层** | 15 tool round | 单轮内多轮工具调用，逐步获取上下文 | 模型主动调工具 → 拿到结果 → 继续分析或提交评论 |
+
+### 工具分类与执行
+
+```
+工具
+├── 控制工具（AgentRuntime 内部直接处理）
+│   ├── code_comment   提交一条候选审查评论
+│   │   ├─ 校验：file 必须在 changed_files 中
+│   │   ├─ 校验：line 必须为正整数
+│   │   ├─ 创建 Finding（confidence=REFERENCE，绑定 agent_tool_call 证据）
+│   │   └─ 返回 accepted=True + finding_id
+│   └── task_done      声明审查完成
+│       └─ 跳出内层循环，stop_reason="task_done"
+│
+└── 分析工具（委托 ToolRegistry 执行）
+    ├── list_changed_files   列出变更文件
+    ├── read_diff            读取指定文件的 diff
+    ├── read_file            读取指定文件完整内容
+    └── find_references      查找符号引用
+    ├─ 输出自动截断到 3000 chars
+    ├─ 异常自动映射为结构化 ToolResult
+    └─ 每轮最多调用 3 个分析工具（防止无限探索）
+```
+
+### 预算门禁与 Grace Round
+
+每次 LLM 调用前执行预算检查，四级降级：
+
+```
+预算使用率
+  0%–60%   → normal         完整上下文，主模型
+  60%–85%  → degraded       截断上下文，主模型
+  85%–100% → essential_only 只关注正确性/安全，fallback 模型
+  100%     → stopped        停止 LLM 调用
+                │
+                ├─ 当前轮已有 finding → 进入 Grace Round（仅 1 次）
+                │   ├─ 只保留 code_comment + task_done
+                │   ├─ 注入 system 消息："预算即将耗尽，请提交已确认问题后结束"
+                │   └─ 执行 1 次后停止
+                │
+                └─ 无 finding → 直接停止，保留已有结果
+```
+
+Grace Round 也可由 **LLM 响应被截断**（`finish_reason=length` 且空内容）触发，防止上下文过长导致模型无法正常输出。
+
+### 终止条件汇总
+
+| 终止原因 | 触发位置 | 说明 |
+|---|---|---|
+| `task_done` | 内层 | 模型主动调用 task_done，正常完成 |
+| `budget_exhausted` | 内层 | 预算耗尽且 Grace Round 已执行 |
+| `empty_rounds` | 内层 | 连续 3 次 LLM 响应无 tool_calls |
+| `response_truncated` | 内层 | 响应被截断且 Grace Round 已执行 |
+| `no_new_findings` | 外层 | 本轮未产生任何新 finding，提前结束 |
+| `max_rounds` | 外层 | 达到 2 轮上限 |
+
+### 一条 Finding 的完整产生链路
+
+```
+模型调用 read_file 读取 src/foo.py
+  → ToolRegistry 执行，返回文件内容（截断到 3000 chars）
+  → 结果作为 tool 消息追加回对话
+  → 模型分析后调用 code_comment(file="src/foo.py", line=42, summary="...", ...)
+  → AgentRuntime 校验 file 在 changed_files 中
+  → 创建 Finding：
+      id=agent-xxxxxxxxxx
+      confidence=REFERENCE（初始，阶段⑥证据验证后可能升级为 HIGH）
+      evidence=[EvidenceRef(source_type="agent_tool_call", source_id=tool_call_id, ...)]
+      source_type=LLM
+  → 返回 accepted=True
+  → 模型继续分析或调用 task_done
+```
+
+阶段 ⑥ `EvidenceValidator` + `CommentLocator` 会对 AgentRuntime 产出的 Finding 做二次校验：
+- `CommentLocator` 校验 `file/line` 是否映射到 diff 新增行 → 无效则降级为 `reference`
+- `EvidenceValidator` 基于证据类型最终判定 `high` / `reference`
+- `FindingAggregator` 去重、合并、与规则引擎产出的 Finding 聚合
 
 ---
 
@@ -284,7 +551,11 @@ bytedance-codereviewer/
 │   │   ├── publish_controller.py   # 评论发布 + head SHA 校验
 │   │   ├── input_resolver.py       # 输入解析与校验
 │   │   ├── snapshot_builder.py     # 不可变快照构建
-│   │   └── diff_preprocessor.py
+│   │   ├── diff_preprocessor.py    # Diff 分片、过滤、语言识别
+│   │   ├── tool_engine.py          # 工具执行引擎（规则链路兼容）
+│   │   ├── llm_reviewer.py         # LLM 审查适配层
+│   │   ├── llm_provider_factory.py # LLM Provider 工厂 + 预算路由
+│   │   └── scm_provider_factory.py # SCM Provider 工厂（GitHub/GitLab）
 │   ├── tools/
 │   │   ├── declarative.py          # @tool 装饰器 + Schema 自动生成
 │   │   ├── registry.py             # ToolRegistry 注册与执行
@@ -312,7 +583,7 @@ bytedance-codereviewer/
 ## 测试与验证
 
 ```
-118 passed in 3.79s
+119 passed
 ```
 
 28 个测试文件，覆盖题目 6 项要求的核心行为：
@@ -347,11 +618,11 @@ bytedance-codereviewer/
 | 交付物 | 说明 |
 |---|---|
 | **源代码** | `src/` 全部源码，纯 Python + Pydantic，无重型框架依赖 |
-| **测试** | `tests/unit/` 118 个测试，`pytest` 一键运行 |
+| **测试** | `tests/unit/` 119 个测试，`pytest` 一键运行 |
 | **设计文档** | `docs/` 下 SPEC / ARCHITECTURE / DEV_PLAN / spec2 / AGENT_RUNTIME / DECLARATIVE_TOOLS / CHECKLIST / mvp_review |
 | **README** | 本文件，题目要求逐条对照 + 快速开始 + 架构说明 |
 | **AGENTS.md** | 开发协作规范（架构约束、编码纪律、开发流程） |
-| **运行示例产物** | `artifacts/` 下的示例 review 输出（checkpoint/findings/report/trace） |
+| **运行产物** | 运行后生成在 `artifacts/`（已 gitignore，不随代码推送），含 checkpoint/findings/report/trace |
 
 打包方式：将整个项目目录（排除 `.git/`、`__pycache__/`、`.pytest_cache/`）压缩为 zip 发送。
 
