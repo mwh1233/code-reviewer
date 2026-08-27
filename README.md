@@ -97,11 +97,26 @@ python -m codereviewer.app.cli --resume-review-id review-xxxxxxxx --artifact-roo
 
 ### 启用评论发布
 
-默认不发布。需同时满足：输入为 `--review-url` + 指定 `--publish` + 发布前 head SHA 校验通过。
+> **⚠️ 发布开关（重要）**：默认**不发布**任何评论。必须显式启用发布开关才会向 GitHub/GitLab 写入评论。
+>
+> 两种启用方式（任选其一，CLI 参数优先级更高）：
+> 1. **CLI 参数**：命令行加 `--publish`（推荐，单次生效）
+> 2. **环境变量**：`$env:PUBLISH_ENABLED = "true"`（全局生效）
+>
+> 仅启用开关还不够，发布需**同时满足**以下全部条件：
+> - ✅ 发布开关已启用（`--publish` 或 `PUBLISH_ENABLED=true`）
+> - ✅ 输入为 `--review-url`（有明确的 PR/MR 发布目标；**纯分支比较 `--repo + --base-branch + --head-branch` 无法发布**，因为没有 PR/MR 编号）
+> - ✅ 发布前 head SHA 校验通过（代码未在审查期间变更）
+> - ✅ 有可发布的 Finding（0 finding 时跳过发布）
 
 ```powershell
+# 方式一：CLI 参数（推荐）
 $env:PYTHONPATH = "src"
 python -m codereviewer.app.cli --review-url https://github.com/owner/repo/pull/123 --publish --artifact-root artifacts
+
+# 方式二：环境变量
+$env:PUBLISH_ENABLED = "true"
+python -m codereviewer.app.cli --review-url https://github.com/owner/repo/pull/123 --artifact-root artifacts
 ```
 
 ### 输出产物
