@@ -123,6 +123,7 @@ class AgentRuntime:
 
             for tool_round in range(1, self._config.max_tool_rounds + 1):
                 tool_schemas = self._available_tools(include_analysis=not in_grace_round)
+                max_tokens_for_round = 2048 if in_grace_round else 4096
                 budget_mode = self._budget_manager.snapshot.degrade_level
                 if budget_mode == "stopped":
                     budget_mode = "essential_only"
@@ -130,7 +131,7 @@ class AgentRuntime:
                     estimated_input_tokens = self._estimate_chat_tokens(messages, tool_schemas)
                     estimated_cost = self._llm_provider.estimate_cost(
                         estimated_input_tokens,
-                        800,
+                        max_tokens_for_round,
                         budget_mode=budget_mode,
                     )
                     decision = self._budget_manager.plan_llm_call(
@@ -218,7 +219,7 @@ class AgentRuntime:
                     messages=messages,
                     tools=tool_schemas,
                     tool_choice="auto",
-                    max_tokens=1024,
+                    max_tokens=max_tokens_for_round,
                     temperature=0.0,
                 )
                 self._trace_manager.write_artifact(
