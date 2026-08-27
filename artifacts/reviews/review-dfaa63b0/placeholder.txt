@@ -1,0 +1,8 @@
+Review pipeline completed.
+provider=gitlab
+source_kind=review_url
+repo=test6800935/testmr
+base_sha=c791d851b7c5716a0b01d6bbfa412359a393a5ba
+head_sha=b8df286c5caf9b8b80f12c721d85299206eb6df7
+changed_files=1
+input_hash=dfaa63b0f80aa399d612dc0776258f11f09b2f8e6d19c82c4084835c805d8a5e

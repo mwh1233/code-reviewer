@@ -1,0 +1,40 @@
+{
+  "review_id": "review-61755ecc",
+  "provider": "github",
+  "repo": "owner/repo",
+  "input_hash": "61755ecc7c1d2d13cb1102445a6060f9f05c2c97e87331a876d0d165b5984417",
+  "base_sha": null,
+  "head_sha": null,
+  "completed_stages": [
+    "input_validated"
+  ],
+  "current_stage": "input_validated",
+  "next_stage": "snapshot_created",
+  "trace_id": "trace-7fd7b6ee63",
+  "findings": [],
+  "budget": {
+    "token_limit": 20000,
+    "token_used": 0,
+    "cost_limit": 5.0,
+    "cost_used": 0.0,
+    "stop_reason": null,
+    "degrade_level": "normal",
+    "last_decision": null,
+    "last_projected_ratio": 0.0,
+    "last_actual_ratio": 0.0
+  },
+  "terminal_status": null,
+  "error_message": null,
+  "updated_at": "2026-08-27T09:28:13.167266Z",
+  "request": {
+    "provider": "github",
+    "source_kind": "review_url",
+    "review_url": "https://github.com/owner/repo/pull/123",
+    "repo": "owner/repo",
+    "change_number": 123,
+    "base_branch": null,
+    "head_branch": null,
+    "requested_at": "2026-08-27T09:28:13.166125Z"
+  },
+  "snapshot": null
+}

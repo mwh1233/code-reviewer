@@ -1,0 +1,15 @@
+{
+  "trace_id": "trace-7fd7b6ee63",
+  "review_id": "review-61755ecc",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-27T09:28:13.167266Z",
+      "details": {}
+    }
+  ],
+  "artifact_refs": [],
+  "created_at": "2026-08-27T09:28:13.166125Z",
+  "updated_at": "2026-08-27T09:28:13.167266Z"
+}

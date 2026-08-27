@@ -1,0 +1,19 @@
+{
+  "content": "",
+  "tool_calls": [
+    {
+      "id": "call_00_qENuXhcEARDtUaUxCA0F2051",
+      "name": "read_diff",
+      "arguments": "{\"file_path\": \"app/core/state.py\"}"
+    },
+    {
+      "id": "call_01_vxXKcdgSHtN1MdoaF0ZH0637",
+      "name": "read_diff",
+      "arguments": "{\"file_path\": \"app/tools/state_transition.py\"}"
+    }
+  ],
+  "input_tokens": 2289,
+  "output_tokens": 98,
+  "estimated_cost": 0.002583,
+  "finish_reason": "tool_calls"
+}

@@ -1,0 +1,460 @@
+{
+  "trace_id": "trace-e254a440d2",
+  "review_id": "review-43baa9e7",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-27T10:31:01.914928Z",
+      "details": {}
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-27T10:31:04.415586Z",
+      "details": {}
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Prepared deterministic diff analysis for 2 files (2 text, 0 binary).",
+      "timestamp": "2026-08-27T10:31:04.416118Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-27T10:31:04.418125Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-27T10:31:04.418125Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-27T10:31:04.419125Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-27T10:31:04.419125Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.419125Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.420124Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.421132Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.421132Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-27T10:31:04.421132Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-27T10:31:04.422646Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.422646Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.422646Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.423654Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.424652Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-27T10:31:04.424652Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-27T10:31:04.425653Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.426159Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.426159Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.427167Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.427167Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-27T10:31:04.428174Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-27T10:31:04.428174Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.429173Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.429173Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-27T10:31:04.429173Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-27T10:31:04.430680Z",
+      "details": {}
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks completed with 0 candidate findings.",
+      "timestamp": "2026-08-27T10:31:04.430680Z",
+      "details": {}
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime round 1 started.",
+      "timestamp": "2026-08-27T10:31:04.432692Z",
+      "details": {
+        "round": 1,
+        "existing_findings": 0,
+        "collected_findings": 0
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime budget decision: level=normal, projected_ratio=0.117, reason=budget remains in normal range.",
+      "timestamp": "2026-08-27T10:31:04.433689Z",
+      "details": {
+        "round": 1,
+        "tool_round": 1,
+        "degrade_level": "normal",
+        "projected_ratio": 0.11655,
+        "in_grace_round": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime received tool chat response.",
+      "timestamp": "2026-08-27T10:31:07.069415Z",
+      "details": {
+        "round": 1,
+        "tool_round": 1,
+        "finish_reason": "tool_calls",
+        "tool_call_count": 1,
+        "budget_level": "normal"
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime executed tool list_changed_files.",
+      "timestamp": "2026-08-27T10:31:07.071951Z",
+      "details": {
+        "round": 1,
+        "tool_round": 1,
+        "tool_call_id": "call_00_ANgGxmYO7ZR18FkjlPZP6501",
+        "tool_name": "list_changed_files",
+        "error": null,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime budget decision: level=normal, projected_ratio=0.218, reason=budget remains in normal range.",
+      "timestamp": "2026-08-27T10:31:07.071951Z",
+      "details": {
+        "round": 1,
+        "tool_round": 2,
+        "degrade_level": "normal",
+        "projected_ratio": 0.21825,
+        "in_grace_round": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime received tool chat response.",
+      "timestamp": "2026-08-27T10:31:08.804003Z",
+      "details": {
+        "round": 1,
+        "tool_round": 2,
+        "finish_reason": "tool_calls",
+        "tool_call_count": 2,
+        "budget_level": "normal"
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime executed tool read_diff.",
+      "timestamp": "2026-08-27T10:31:08.805893Z",
+      "details": {
+        "round": 1,
+        "tool_round": 2,
+        "tool_call_id": "call_00_oSj0L6DymAuQK6496TfS3168",
+        "tool_name": "read_diff",
+        "error": null,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime executed tool read_diff.",
+      "timestamp": "2026-08-27T10:31:08.809110Z",
+      "details": {
+        "round": 1,
+        "tool_round": 2,
+        "tool_call_id": "call_01_D7aanLcH4VzRGlxFw9ab6384",
+        "tool_name": "read_diff",
+        "error": null,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime budget decision: level=normal, projected_ratio=0.347, reason=budget remains in normal range.",
+      "timestamp": "2026-08-27T10:31:08.811861Z",
+      "details": {
+        "round": 1,
+        "tool_round": 3,
+        "degrade_level": "normal",
+        "projected_ratio": 0.3475,
+        "in_grace_round": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime received tool chat response.",
+      "timestamp": "2026-08-27T10:31:11.289411Z",
+      "details": {
+        "round": 1,
+        "tool_round": 3,
+        "finish_reason": "tool_calls",
+        "tool_call_count": 2,
+        "budget_level": "normal"
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime executed tool read_file.",
+      "timestamp": "2026-08-27T10:31:12.398856Z",
+      "details": {
+        "round": 1,
+        "tool_round": 3,
+        "tool_call_id": "call_00_1bYrcDNF4xzatHsRJfTl1370",
+        "tool_name": "read_file",
+        "error": null,
+        "truncated": true
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime executed tool read_file.",
+      "timestamp": "2026-08-27T10:31:13.200831Z",
+      "details": {
+        "round": 1,
+        "tool_round": 3,
+        "tool_call_id": "call_01_BIVFQecq9rh8IwZv0BJv2251",
+        "tool_name": "read_file",
+        "error": null,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime budget decision: level=degraded, projected_ratio=0.849, reason=budget entered degraded range.",
+      "timestamp": "2026-08-27T10:31:13.203835Z",
+      "details": {
+        "round": 1,
+        "tool_round": 4,
+        "degrade_level": "degraded",
+        "projected_ratio": 0.84915,
+        "in_grace_round": false
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime received tool chat response.",
+      "timestamp": "2026-08-27T10:31:29.823275Z",
+      "details": {
+        "round": 1,
+        "tool_round": 4,
+        "finish_reason": "length",
+        "tool_call_count": 0,
+        "budget_level": "stopped"
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime stopped after an empty truncated LLM response to avoid resubmitting invalid context.",
+      "timestamp": "2026-08-27T10:31:29.825793Z",
+      "details": {
+        "round": 1,
+        "tool_round": 4,
+        "finish_reason": "length"
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Agent runtime round 1 completed.",
+      "timestamp": "2026-08-27T10:31:29.826963Z",
+      "details": {
+        "round": 1,
+        "new_findings": 0,
+        "tool_calls_total": 5,
+        "stop_reason": "response_truncated"
+      }
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM findings generated with 0 additional candidate findings via AgentRuntime. Budget level=stopped. stop_reason=response_truncated. Budget stop recorded: token budget exceeded after LLM call.",
+      "timestamp": "2026-08-27T10:31:29.828976Z",
+      "details": {}
+    },
+    {
+      "stage": "findings_verified",
+      "message": "Findings verified and aggregated into 0 final findings. Invalid locations downgraded: 0.",
+      "timestamp": "2026-08-27T10:31:29.832996Z",
+      "details": {}
+    },
+    {
+      "stage": "outputs_prepared",
+      "message": "Prepared local output artifacts: report.md and findings.json.",
+      "timestamp": "2026-08-27T10:31:29.838725Z",
+      "details": {}
+    },
+    {
+      "stage": "publish_attempted",
+      "message": "Published provider review comment with comment_id=5437746489 at head_sha=3f2866333d32085575e9f8a4d3cb3040472fcfa8.",
+      "timestamp": "2026-08-27T10:31:32.101933Z",
+      "details": {}
+    },
+    {
+      "stage": "completed",
+      "message": "Review pipeline completed.",
+      "timestamp": "2026-08-27T10:31:32.103291Z",
+      "details": {}
+    }
+  ],
+  "artifact_refs": [
+    {
+      "artifact_type": "llm_prompt",
+      "artifact_id": "llm_prompt-9c079a2d",
+      "storage_ref": "trace_artifacts/llm_prompt-9c079a2d.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_response",
+      "artifact_id": "llm_response-9e8e335e",
+      "storage_ref": "trace_artifacts/llm_response-9e8e335e.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_prompt",
+      "artifact_id": "llm_prompt-db01d1be",
+      "storage_ref": "trace_artifacts/llm_prompt-db01d1be.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_response",
+      "artifact_id": "llm_response-62193787",
+      "storage_ref": "trace_artifacts/llm_response-62193787.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_prompt",
+      "artifact_id": "llm_prompt-d73e8b7e",
+      "storage_ref": "trace_artifacts/llm_prompt-d73e8b7e.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_response",
+      "artifact_id": "llm_response-aa54d059",
+      "storage_ref": "trace_artifacts/llm_response-aa54d059.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_prompt",
+      "artifact_id": "llm_prompt-16385e13",
+      "storage_ref": "trace_artifacts/llm_prompt-16385e13.txt",
+      "redacted": true
+    },
+    {
+      "artifact_type": "llm_response",
+      "artifact_id": "llm_response-cae01417",
+      "storage_ref": "trace_artifacts/llm_response-cae01417.txt",
+      "redacted": true
+    }
+  ],
+  "created_at": "2026-08-27T10:31:01.913919Z",
+  "updated_at": "2026-08-27T10:31:32.103291Z"
+}

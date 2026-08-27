@@ -1,0 +1,32 @@
+{
+  "review_id": "review-0968ea25",
+  "provider": "github",
+  "repo": "mwh1233/travelassistant",
+  "input_hash": "",
+  "base_sha": null,
+  "head_sha": null,
+  "completed_stages": [],
+  "current_stage": "input_validated",
+  "next_stage": "snapshot_created",
+  "trace_id": "trace-79decc630b",
+  "budget": {
+    "token_limit": null,
+    "token_used": 0,
+    "cost_limit": null,
+    "cost_used": 0.0
+  },
+  "terminal_status": null,
+  "error_message": null,
+  "updated_at": "2026-08-26T09:39:48.802905Z",
+  "request": {
+    "provider": "github",
+    "source_kind": "review_url",
+    "review_url": "https://github.com/mwh1233/travelassistant/pull/1",
+    "repo": "mwh1233/travelassistant",
+    "change_number": 1,
+    "base_branch": null,
+    "head_branch": null,
+    "requested_at": "2026-08-26T09:39:48.800908Z"
+  },
+  "snapshot": null
+}

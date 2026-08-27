@@ -1,0 +1,49 @@
+{
+  "findings": [
+    {
+      "id": "llm-c3a90929fd",
+      "summary": "External Mermaid library loaded from CDN without Subresource Integrity",
+      "severity": "medium",
+      "confidence": "reference",
+      "file": "agent_architecture.html",
+      "line": 7,
+      "explanation": "The page loads https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js from a third-party CDN without an integrity attribute and without crossorigin=\"anonymous\". If the CDN is compromised or the script is tampered with, arbitrary JavaScript can execute in the context of the page. Also, mermaid@10 is not pinned to an exact version, so future releases within the 10.x range could break the diagrams.",
+      "evidence": [
+        {
+          "source_type": "llm_prompt",
+          "source_id": "llm_review",
+          "file": "agent_architecture.html",
+          "line_start": 7,
+          "line_end": 7,
+          "excerpt": "External Mermaid library loaded from CDN without Subresource Integrity",
+          "verified": false
+        }
+      ],
+      "suggested_fix": "Pin an exact version (e.g., mermaid@10.9.1) and add an integrity hash with crossorigin=\"anonymous\": <script src=\"https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js\" integrity=\"sha384-...\" crossorigin=\"anonymous\"></script>",
+      "source_type": "llm"
+    },
+    {
+      "id": "llm-36fd247e84",
+      "summary": "Flex centering with overflow-x can clip the left side of Mermaid diagrams",
+      "severity": "low",
+      "confidence": "reference",
+      "file": "agent_architecture.html",
+      "line": 50,
+      "explanation": "The .mermaid rule uses display:flex; justify-content:center; overflow-x:auto. When a Mermaid SVG is wider than the container, flexbox centering creates overflow on both sides; the left overflow (the beginning of the diagram) is not reachable by scrolling in many browsers, hiding important content.",
+      "evidence": [
+        {
+          "source_type": "llm_prompt",
+          "source_id": "llm_review",
+          "file": "agent_architecture.html",
+          "line_start": 50,
+          "line_end": 50,
+          "excerpt": "Flex centering with overflow-x can clip the left side of Mermaid diagrams",
+          "verified": false
+        }
+      ],
+      "suggested_fix": "Use safe centering or a block-level fallback, e.g., .mermaid { display: flex; justify-content: safe center; overflow-x: auto; } or set margin:0 auto on the SVG and remove justify-content:center from the container.",
+      "source_type": "llm"
+    }
+  ],
+  "count": 2
+}

@@ -1,0 +1,19 @@
+{
+  "content": "",
+  "tool_calls": [
+    {
+      "id": "call_00_pVy78elyj79FumvaMT1L7122",
+      "name": "list_changed_files",
+      "arguments": "{}"
+    },
+    {
+      "id": "call_01_aGk8AG5w7HSwZDXMlMx73186",
+      "name": "read_diff",
+      "arguments": "{}"
+    }
+  ],
+  "input_tokens": 5797,
+  "output_tokens": 260,
+  "estimated_cost": 0.006577,
+  "finish_reason": "tool_calls"
+}

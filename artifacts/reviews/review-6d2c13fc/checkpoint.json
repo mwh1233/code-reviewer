@@ -1,0 +1,68 @@
+{
+  "review_id": "review-6d2c13fc",
+  "provider": "gitlab",
+  "repo": "test6800935/testmr",
+  "input_hash": "6d2c13fc8be462c0d3a6ab7107f7704aadf14553269982598359aa64ca61981d",
+  "base_sha": "c791d851b7c5716a0b01d6bbfa412359a393a5ba",
+  "head_sha": "b8df286c5caf9b8b80f12c721d85299206eb6df7",
+  "completed_stages": [
+    "input_validated",
+    "snapshot_created",
+    "analysis_prepared",
+    "deterministic_checks_done",
+    "findings_generated",
+    "findings_verified",
+    "outputs_prepared",
+    "publish_attempted",
+    "completed"
+  ],
+  "current_stage": "completed",
+  "next_stage": null,
+  "trace_id": "trace-8c20a84801",
+  "findings": [],
+  "budget": {
+    "token_limit": 1,
+    "token_used": 0,
+    "cost_limit": 5.0,
+    "cost_used": 0.0,
+    "stop_reason": "token budget exceeded before LLM call.",
+    "degrade_level": "stopped",
+    "last_decision": "token budget exceeded before LLM call.",
+    "last_projected_ratio": 171.0,
+    "last_actual_ratio": 0.0
+  },
+  "terminal_status": "completed",
+  "error_message": null,
+  "updated_at": "2026-08-26T14:07:14.627372Z",
+  "request": {
+    "provider": "gitlab",
+    "source_kind": "review_url",
+    "review_url": "https://gitlab.com/test6800935/testmr/-/merge_requests/1",
+    "repo": "test6800935/testmr",
+    "change_number": 1,
+    "base_branch": null,
+    "head_branch": null,
+    "requested_at": "2026-08-26T14:07:12.537898Z"
+  },
+  "snapshot": {
+    "review_id": "review-6d2c13fc",
+    "provider": "gitlab",
+    "source_kind": "review_url",
+    "repo": "test6800935/testmr",
+    "review_url": "https://gitlab.com/test6800935/testmr/-/merge_requests/1",
+    "change_number": 1,
+    "input_hash": "6d2c13fc8be462c0d3a6ab7107f7704aadf14553269982598359aa64ca61981d",
+    "base_ref": "main",
+    "head_ref": "test",
+    "base_sha": "c791d851b7c5716a0b01d6bbfa412359a393a5ba",
+    "head_sha": "b8df286c5caf9b8b80f12c721d85299206eb6df7",
+    "changed_files": [
+      "test.txt"
+    ],
+    "diff_text": "diff --git a/test.txt b/test.txt\n--- /dev/null\n+++ b/test.txt\n@@ -0,0 +1 @@\n+11111\n\\ No newline at end of file\n",
+    "review_title": "test",
+    "author_login": "Marvin_9743",
+    "web_url": "https://gitlab.com/test6800935/testmr/-/merge_requests/1",
+    "created_at": "2026-08-26T14:07:14.597460Z"
+  }
+}

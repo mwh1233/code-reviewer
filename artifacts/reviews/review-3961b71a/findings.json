@@ -1,0 +1,49 @@
+{
+  "findings": [
+    {
+      "id": "llm-aaa7da1061",
+      "summary": "External Mermaid CDN script loaded without Subresource Integrity (SRI) or pinned version",
+      "severity": "low",
+      "confidence": "reference",
+      "file": "agent_architecture.html",
+      "line": 7,
+      "explanation": "The page includes <script src=\"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js\"> from a third-party CDN without integrity/crossorigin attributes. If the CDN is compromised, arbitrary JavaScript can execute in the user's browser. Additionally, the unpinned major-version range (@10) does not guarantee a reproducible dependency.",
+      "evidence": [
+        {
+          "source_type": "llm_prompt",
+          "source_id": "llm_review",
+          "file": "agent_architecture.html",
+          "line_start": 7,
+          "line_end": 7,
+          "excerpt": "External Mermaid CDN script loaded without Subresource Integrity (SRI) or pinned version",
+          "verified": false
+        }
+      ],
+      "suggested_fix": "Pin an exact Mermaid version (e.g., mermaid@10.9.0) and add integrity and crossorigin=\"anonymous\" attributes to the script tag.",
+      "source_type": "llm"
+    },
+    {
+      "id": "llm-45072f8802",
+      "summary": "State machine diagram is inconsistent with the documented rollback behavior",
+      "severity": "low",
+      "confidence": "reference",
+      "file": "agent_architecture.html",
+      "line": 163,
+      "explanation": "The 8-step state machine diagram only shows rollback edges from S3\u2192S2, S4\u2192S3, S5\u2192S4, and S6\u2192S5. However, the notes state that ALL_ROLLBACK_TOOLS allow rolling back to the previous step, and the tools layer lists rollback \u00d7 7. This implies rollback edges should exist for S2\u2192S1, S7\u2192S6, and S8\u2192S7 as well, making the diagram incomplete/contradictory.",
+      "evidence": [
+        {
+          "source_type": "llm_prompt",
+          "source_id": "llm_review",
+          "file": "agent_architecture.html",
+          "line_start": 163,
+          "line_end": 163,
+          "excerpt": "State machine diagram is inconsistent with the documented rollback behavior",
+          "verified": false
+        }
+      ],
+      "suggested_fix": "Add rollback edges for S2 \u2192 S1, S7 \u2192 S6, and S8 \u2192 S7, or update the text/tool description to clarify the intended rollback policy.",
+      "source_type": "llm"
+    }
+  ],
+  "count": 2
+}

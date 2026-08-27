@@ -1,0 +1,8 @@
+{
+  "content": "",
+  "tool_calls": [],
+  "input_tokens": 22778,
+  "output_tokens": 1024,
+  "estimated_cost": 0.025849999999999998,
+  "finish_reason": "length"
+}

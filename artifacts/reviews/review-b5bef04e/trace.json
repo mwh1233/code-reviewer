@@ -1,0 +1,73 @@
+{
+  "trace_id": "trace-a8acf45b11",
+  "review_id": "review-b5bef04e",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-26T14:06:43.400428Z"
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-26T14:06:45.718423Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Prepared deterministic diff analysis for 1 files (1 text, 0 binary).",
+      "timestamp": "2026-08-26T14:06:45.721830Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T14:06:45.723360Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T14:06:45.724354Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T14:06:45.725357Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T14:06:45.726872Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T14:06:45.728935Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T14:06:45.729999Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks completed with 0 candidate findings.",
+      "timestamp": "2026-08-26T14:06:45.730998Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Budget decision before LLM call: level=normal, projected_ratio=0.009, reason=budget remains in normal range.",
+      "timestamp": "2026-08-26T14:06:45.734203Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM review request prepared with estimated_input_tokens=171, budget_level=normal.",
+      "timestamp": "2026-08-26T14:06:45.735526Z"
+    },
+    {
+      "stage": "failed",
+      "message": "LLM review failed during findings_generated: LLM request failed: HTTPSConnectionPool(host='api.deepseek.com', port=443): Max retries exceeded with url: /chat/completions (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response'))).",
+      "timestamp": "2026-08-26T14:07:01.016246Z"
+    }
+  ],
+  "created_at": "2026-08-26T14:06:43.400428Z",
+  "updated_at": "2026-08-26T14:07:01.016246Z"
+}

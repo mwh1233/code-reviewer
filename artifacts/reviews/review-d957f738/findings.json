@@ -1,0 +1,49 @@
+{
+  "findings": [
+    {
+      "id": "llm-5afb1d3de4",
+      "summary": "Mermaid diagram labels with raw <br/> tags will not render line breaks as intended",
+      "severity": "medium",
+      "confidence": "reference",
+      "file": "agent_architecture.html",
+      "line": 124,
+      "explanation": "The Mermaid source is embedded directly in HTML, so the raw <br/> tags inside labels are parsed as HTML elements by the browser and removed from the text passed to Mermaid. This affects labels such as S1[\"1\ufe0f\u20e3 \u9700\u6c42\u6536\u96c6<br/>record_requirement\"] and many others, causing the intended line breaks to be lost or the label to be corrupted. The tags should be escaped as &lt;br/&gt; so that Mermaid receives them as literal label markup.",
+      "evidence": [
+        {
+          "source_type": "llm_prompt",
+          "source_id": "llm_review",
+          "file": "agent_architecture.html",
+          "line_start": 124,
+          "line_end": 124,
+          "excerpt": "Mermaid diagram labels with raw <br/> tags will not render line breaks as intended",
+          "verified": false
+        }
+      ],
+      "suggested_fix": "Replace every raw <br/> inside the .mermaid blocks with &lt;br/&gt; (or use \\n). If HTML labels are still sanitized, also set securityLevel: 'loose' in the mermaid.initialize configuration.",
+      "source_type": "llm"
+    },
+    {
+      "id": "llm-77b58c1ec1",
+      "summary": "External Mermaid script loaded without Subresource Integrity",
+      "severity": "low",
+      "confidence": "reference",
+      "file": "agent_architecture.html",
+      "line": 7,
+      "explanation": "The page loads https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js without an integrity attribute. A compromised CDN or a man-in-the-middle attacker could alter the script and execute arbitrary code in the context of the page. This is a supply-chain hardening issue common to static pages that depend on third-party JavaScript.",
+      "evidence": [
+        {
+          "source_type": "llm_prompt",
+          "source_id": "llm_review",
+          "file": "agent_architecture.html",
+          "line_start": 7,
+          "line_end": 7,
+          "excerpt": "External Mermaid script loaded without Subresource Integrity",
+          "verified": false
+        }
+      ],
+      "suggested_fix": "Pin the Mermaid version to a specific release (e.g., mermaid@10.9.0) and add the corresponding integrity hash plus crossorigin=\"anonymous\" to the script tag.",
+      "source_type": "llm"
+    }
+  ],
+  "count": 2
+}

@@ -1,0 +1,29 @@
+{
+  "content": "",
+  "tool_calls": [
+    {
+      "id": "call_00_a2QPYZVhixSFFMyMXKES5598",
+      "name": "find_references",
+      "arguments": "{\"query\": \"app.state.skills\"}"
+    },
+    {
+      "id": "call_01_5GouWGUOIJDNMpv6l4ld0031",
+      "name": "find_references",
+      "arguments": "{\"query\": \"load_skills\"}"
+    },
+    {
+      "id": "call_02_kXXIn9uY0iJNLEAtbzuu7069",
+      "name": "find_references",
+      "arguments": "{\"query\": \"LoadedSkill\"}"
+    },
+    {
+      "id": "call_03_l35ltafCELVoigc9qRff4788",
+      "name": "find_references",
+      "arguments": "{\"query\": \"VALID_TRANSPORT_TYPES\"}"
+    }
+  ],
+  "input_tokens": 20780,
+  "output_tokens": 1010,
+  "estimated_cost": 0.02381,
+  "finish_reason": "tool_calls"
+}

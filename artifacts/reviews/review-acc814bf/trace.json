@@ -1,0 +1,53 @@
+{
+  "trace_id": "trace-79decc630b",
+  "review_id": "review-acc814bf",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-26T09:39:48.801920Z"
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-26T09:39:51.699736Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Analysis preparation placeholder completed.",
+      "timestamp": "2026-08-26T09:39:51.703374Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks placeholder completed.",
+      "timestamp": "2026-08-26T09:39:51.706918Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Finding generation placeholder completed.",
+      "timestamp": "2026-08-26T09:39:51.709457Z"
+    },
+    {
+      "stage": "findings_verified",
+      "message": "Finding verification placeholder completed.",
+      "timestamp": "2026-08-26T09:39:51.713973Z"
+    },
+    {
+      "stage": "outputs_prepared",
+      "message": "Output preparation placeholder completed.",
+      "timestamp": "2026-08-26T09:39:51.718016Z"
+    },
+    {
+      "stage": "publish_attempted",
+      "message": "Publish placeholder completed.",
+      "timestamp": "2026-08-26T09:39:51.720011Z"
+    },
+    {
+      "stage": "completed",
+      "message": "Review pipeline completed.",
+      "timestamp": "2026-08-26T09:39:51.723103Z"
+    }
+  ],
+  "created_at": "2026-08-26T09:39:48.800908Z",
+  "updated_at": "2026-08-26T09:39:51.723103Z"
+}

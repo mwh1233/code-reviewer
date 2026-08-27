@@ -1,0 +1,14 @@
+{
+  "content": "",
+  "tool_calls": [
+    {
+      "id": "call_00_f6m8N7hLEkfJSLq5PjvT7417",
+      "name": "read_file",
+      "arguments": "{\"file_path\": \"app/core/state.py\"}"
+    }
+  ],
+  "input_tokens": 12725,
+  "output_tokens": 105,
+  "estimated_cost": 0.01304,
+  "finish_reason": "tool_calls"
+}

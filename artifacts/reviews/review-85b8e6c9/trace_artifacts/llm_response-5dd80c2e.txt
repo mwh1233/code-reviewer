@@ -1,0 +1,14 @@
+{
+  "content": "",
+  "tool_calls": [
+    {
+      "id": "call_00_cKzR46wUTglmj0hUpYeo3876",
+      "name": "list_changed_files",
+      "arguments": "{}"
+    }
+  ],
+  "input_tokens": 6366,
+  "output_tokens": 59,
+  "estimated_cost": 0.006543,
+  "finish_reason": "tool_calls"
+}

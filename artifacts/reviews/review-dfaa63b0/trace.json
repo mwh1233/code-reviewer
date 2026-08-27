@@ -1,0 +1,88 @@
+{
+  "trace_id": "trace-59b9ad519f",
+  "review_id": "review-dfaa63b0",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-26T13:22:11.964020Z"
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-26T13:22:14.167400Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Prepared deterministic diff analysis for 1 files (1 text, 0 binary).",
+      "timestamp": "2026-08-26T13:22:14.170046Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T13:22:14.171919Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T13:22:14.171919Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T13:22:14.173267Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T13:22:14.174264Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T13:22:14.175279Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T13:22:14.177277Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks completed with 0 candidate findings.",
+      "timestamp": "2026-08-26T13:22:14.178281Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM review request prepared with estimated_input_tokens=159.",
+      "timestamp": "2026-08-26T13:22:14.181278Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM findings generated with 0 additional candidate findings.",
+      "timestamp": "2026-08-26T13:22:15.969723Z"
+    },
+    {
+      "stage": "findings_verified",
+      "message": "Findings verified and aggregated into 0 final findings.",
+      "timestamp": "2026-08-26T13:22:15.977254Z"
+    },
+    {
+      "stage": "outputs_prepared",
+      "message": "Prepared local output artifacts: report.md and findings.json.",
+      "timestamp": "2026-08-26T13:22:15.993063Z"
+    },
+    {
+      "stage": "publish_attempted",
+      "message": "Publish skipped: no final findings to publish.",
+      "timestamp": "2026-08-26T13:22:15.995073Z"
+    },
+    {
+      "stage": "completed",
+      "message": "Review pipeline completed.",
+      "timestamp": "2026-08-26T13:22:15.998550Z"
+    }
+  ],
+  "created_at": "2026-08-26T13:22:11.955101Z",
+  "updated_at": "2026-08-26T13:22:15.998550Z"
+}

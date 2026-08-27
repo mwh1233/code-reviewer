@@ -1,0 +1,5 @@
+M1 snapshot skeleton pipeline completed successfully.
+provider=github
+source_kind=branch_compare
+repo=owner/repo
+input_hash=9a843210d064d12df9ab3e3602f17584ea70a2991c8020067285ea6b84dc4d85

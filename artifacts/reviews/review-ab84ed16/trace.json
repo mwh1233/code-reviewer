@@ -1,0 +1,108 @@
+{
+  "trace_id": "trace-8a44574e73",
+  "review_id": "review-ab84ed16",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-26T12:21:29.133852Z"
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-26T12:21:31.292839Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Prepared deterministic diff analysis for 3 files (1 text, 2 binary).",
+      "timestamp": "2026-08-26T12:21:31.294847Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T12:21:31.295860Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T12:21:31.297377Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T12:21:31.298408Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T12:21:31.299408Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T12:21:31.300401Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T12:21:31.303925Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T12:21:31.306704Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T12:21:31.309230Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T12:21:31.310228Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T12:21:31.311214Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks completed with 0 candidate findings.",
+      "timestamp": "2026-08-26T12:21:31.311214Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM review request prepared with estimated_input_tokens=2668.",
+      "timestamp": "2026-08-26T12:21:31.313584Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM findings generated with 1 additional candidate findings.",
+      "timestamp": "2026-08-26T12:23:17.094834Z"
+    },
+    {
+      "stage": "findings_verified",
+      "message": "Findings verified and aggregated into 1 final findings.",
+      "timestamp": "2026-08-26T12:23:17.102372Z"
+    },
+    {
+      "stage": "outputs_prepared",
+      "message": "Output preparation placeholder completed.",
+      "timestamp": "2026-08-26T12:23:17.107408Z"
+    },
+    {
+      "stage": "publish_attempted",
+      "message": "Publish placeholder completed.",
+      "timestamp": "2026-08-26T12:23:17.111419Z"
+    },
+    {
+      "stage": "completed",
+      "message": "Review pipeline completed.",
+      "timestamp": "2026-08-26T12:23:17.115945Z"
+    }
+  ],
+  "created_at": "2026-08-26T12:21:29.133852Z",
+  "updated_at": "2026-08-26T12:23:17.115945Z"
+}

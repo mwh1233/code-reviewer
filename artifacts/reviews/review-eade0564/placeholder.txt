@@ -1,0 +1,8 @@
+M2 GitHub snapshot pipeline completed successfully.
+provider=gitlab
+source_kind=branch_compare
+repo=gitlab-org/cli
+base_sha=854380580a36e0e0d05f13ceefcc49a04bcbddad
+head_sha=d8624041cd28c3c7b732d210f9fabcc2ccd5b81e
+changed_files=0
+input_hash=7efdf2eba18179b4ea2cbae7bff850c06c01526d60f7cd6a7149f04c115e3b43

@@ -1,0 +1,2 @@
+M0 skeleton pipeline completed successfully.
+source=m0-placeholder

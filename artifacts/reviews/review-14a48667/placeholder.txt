@@ -1,0 +1,8 @@
+Review pipeline completed.
+provider=github
+source_kind=review_url
+repo=mwh1233/travelassistant
+base_sha=4023ed64df320c6a2af10f40c5ebad9f5dc997c6
+head_sha=063bb96094c5da965ac7034c9e6e1a3b05677bdd
+changed_files=4
+input_hash=14a486679790d4b5dc94cee11e9e1a36ad4ae31cfcefa3734d68f078e663f90e

@@ -1,0 +1,88 @@
+{
+  "trace_id": "trace-8c20a84801",
+  "review_id": "review-6d2c13fc",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-26T14:07:12.537898Z"
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-26T14:07:14.597856Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Prepared deterministic diff analysis for 1 files (1 text, 0 binary).",
+      "timestamp": "2026-08-26T14:07:14.600379Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T14:07:14.601893Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T14:07:14.603913Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T14:07:14.604909Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T14:07:14.605910Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T14:07:14.606908Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T14:07:14.608418Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks completed with 0 candidate findings.",
+      "timestamp": "2026-08-26T14:07:14.609201Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Budget decision before LLM call: level=stopped, projected_ratio=171.000, reason=token budget exceeded before LLM call.",
+      "timestamp": "2026-08-26T14:07:14.611734Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "LLM review skipped due to budget policy: token budget exceeded before LLM call.",
+      "timestamp": "2026-08-26T14:07:14.613750Z"
+    },
+    {
+      "stage": "findings_verified",
+      "message": "Findings verified and aggregated into 0 final findings.",
+      "timestamp": "2026-08-26T14:07:14.615750Z"
+    },
+    {
+      "stage": "outputs_prepared",
+      "message": "Prepared local output artifacts: report.md and findings.json.",
+      "timestamp": "2026-08-26T14:07:14.619770Z"
+    },
+    {
+      "stage": "publish_attempted",
+      "message": "Publish skipped: publish disabled by configuration.",
+      "timestamp": "2026-08-26T14:07:14.622289Z"
+    },
+    {
+      "stage": "completed",
+      "message": "Review pipeline completed.",
+      "timestamp": "2026-08-26T14:07:14.625856Z"
+    }
+  ],
+  "created_at": "2026-08-26T14:07:12.537898Z",
+  "updated_at": "2026-08-26T14:07:14.625856Z"
+}

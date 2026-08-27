@@ -1,0 +1,64 @@
+{
+  "review_id": "review-b5bef04e",
+  "provider": "gitlab",
+  "repo": "test6800935/testmr",
+  "input_hash": "b5bef04e756bc83404ff55604a16d23ebc74769ece3619a2149da018cf176919",
+  "base_sha": "c791d851b7c5716a0b01d6bbfa412359a393a5ba",
+  "head_sha": "b8df286c5caf9b8b80f12c721d85299206eb6df7",
+  "completed_stages": [
+    "input_validated",
+    "snapshot_created",
+    "analysis_prepared",
+    "deterministic_checks_done",
+    "failed"
+  ],
+  "current_stage": "failed",
+  "next_stage": null,
+  "trace_id": "trace-a8acf45b11",
+  "findings": [],
+  "budget": {
+    "token_limit": 20000,
+    "token_used": 0,
+    "cost_limit": 5.0,
+    "cost_used": 0.0,
+    "stop_reason": null,
+    "degrade_level": "normal",
+    "last_decision": "budget remains in normal range.",
+    "last_projected_ratio": 0.00855,
+    "last_actual_ratio": 0.0
+  },
+  "terminal_status": "failed",
+  "error_message": "LLM request failed: HTTPSConnectionPool(host='api.deepseek.com', port=443): Max retries exceeded with url: /chat/completions (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response'))).",
+  "updated_at": "2026-08-26T14:07:01.017362Z",
+  "request": {
+    "provider": "gitlab",
+    "source_kind": "review_url",
+    "review_url": "https://gitlab.com/test6800935/testmr/-/merge_requests/1",
+    "repo": "test6800935/testmr",
+    "change_number": 1,
+    "base_branch": null,
+    "head_branch": null,
+    "requested_at": "2026-08-26T14:06:43.400428Z"
+  },
+  "snapshot": {
+    "review_id": "review-b5bef04e",
+    "provider": "gitlab",
+    "source_kind": "review_url",
+    "repo": "test6800935/testmr",
+    "review_url": "https://gitlab.com/test6800935/testmr/-/merge_requests/1",
+    "change_number": 1,
+    "input_hash": "b5bef04e756bc83404ff55604a16d23ebc74769ece3619a2149da018cf176919",
+    "base_ref": "main",
+    "head_ref": "test",
+    "base_sha": "c791d851b7c5716a0b01d6bbfa412359a393a5ba",
+    "head_sha": "b8df286c5caf9b8b80f12c721d85299206eb6df7",
+    "changed_files": [
+      "test.txt"
+    ],
+    "diff_text": "diff --git a/test.txt b/test.txt\n--- /dev/null\n+++ b/test.txt\n@@ -0,0 +1 @@\n+11111\n\\ No newline at end of file\n",
+    "review_title": "test",
+    "author_login": "Marvin_9743",
+    "web_url": "https://gitlab.com/test6800935/testmr/-/merge_requests/1",
+    "created_at": "2026-08-26T14:06:45.718423Z"
+  }
+}

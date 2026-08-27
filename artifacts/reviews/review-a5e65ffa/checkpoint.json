@@ -1,0 +1,69 @@
+{
+  "review_id": "review-a5e65ffa",
+  "provider": "github",
+  "repo": "mwh1233/travelassistant",
+  "input_hash": "a5e65ffa34b402cbae62a16d83e1fca1dc4afde9ab19b7a5648c98f7872fa0a0",
+  "base_sha": "861777bcc3ef6de9434637de9de8781469772e28",
+  "head_sha": "71b4133aaa9b326b1d0efd773a7e448a3a74f631",
+  "completed_stages": [
+    "input_validated",
+    "snapshot_created",
+    "analysis_prepared",
+    "deterministic_checks_done",
+    "findings_generated",
+    "findings_verified",
+    "outputs_prepared",
+    "publish_attempted",
+    "completed"
+  ],
+  "current_stage": "completed",
+  "next_stage": null,
+  "trace_id": "trace-f988eae93a",
+  "findings": [],
+  "budget": {
+    "token_limit": 20000,
+    "token_used": 22564,
+    "cost_limit": 20.0,
+    "cost_used": 0.024718,
+    "stop_reason": "token budget exceeded before LLM call.",
+    "degrade_level": "stopped",
+    "last_decision": "token budget exceeded before LLM call.",
+    "last_projected_ratio": 1.706,
+    "last_actual_ratio": 1.1282
+  },
+  "terminal_status": "completed",
+  "error_message": null,
+  "updated_at": "2026-08-27T10:34:51.670073Z",
+  "request": {
+    "provider": "github",
+    "source_kind": "review_url",
+    "review_url": "https://github.com/mwh1233/travelassistant/pull/5",
+    "repo": "mwh1233/travelassistant",
+    "change_number": 5,
+    "base_branch": null,
+    "head_branch": null,
+    "requested_at": "2026-08-27T10:34:18.720864Z"
+  },
+  "snapshot": {
+    "review_id": "review-a5e65ffa",
+    "provider": "github",
+    "source_kind": "review_url",
+    "repo": "mwh1233/travelassistant",
+    "review_url": "https://github.com/mwh1233/travelassistant/pull/5",
+    "change_number": 5,
+    "input_hash": "a5e65ffa34b402cbae62a16d83e1fca1dc4afde9ab19b7a5648c98f7872fa0a0",
+    "base_ref": "mwh-dev",
+    "head_ref": "review/optimization-suggestions",
+    "base_sha": "861777bcc3ef6de9434637de9de8781469772e28",
+    "head_sha": "71b4133aaa9b326b1d0efd773a7e448a3a74f631",
+    "changed_files": [
+      "app/core/state.py",
+      "app/tools/state_transition.py"
+    ],
+    "diff_text": "diff --git a/app/core/state.py b/app/core/state.py\nindex 03e09f5..b67a4b3 100644\n--- a/app/core/state.py\n+++ b/app/core/state.py\n@@ -2,6 +2,8 @@\n TravelState \u72b6\u6001\u5b9a\u4e49\n \u4f7f\u7528 TypedDict + Annotated \u5b9e\u73b0\u7c7b\u578b\u5b89\u5168\u548c\u72b6\u6001\u5408\u5e76\n \"\"\"\n+import time\n+\n from typing import Annotated, Literal, Optional\n from typing_extensions import TypedDict, NotRequired\n from operator import add\n@@ -177,8 +179,6 @@ class TravelState(AgentState):\n \n def create_initial_state(user_id: str, session_id: str) -> TravelState:\n     \"\"\"\u521b\u5efa\u521d\u59cb\u72b6\u6001\"\"\"\n-    import time\n-\n     return TravelState(\n         messages=[],\n         current_step=\"requirement_collection\",\ndiff --git a/app/tools/state_transition.py b/app/tools/state_transition.py\nindex 3477c41..2e5370d 100644\n--- a/app/tools/state_transition.py\n+++ b/app/tools/state_transition.py\n@@ -18,6 +18,13 @@\n from app.utils.logger import app_logger\n from typing import Literal, Optional\n \n+VALID_TRANSPORT_TYPES = frozenset({\"flight\", \"train\", \"driving\"})\n+TRANSPORT_LABELS = {\n+    \"flight\": \"\u822a\u73ed\",\n+    \"train\": \"\u9ad8\u94c1\",\n+    \"driving\": \"\u81ea\u9a7e\"\n+}\n+\n # ============== 1\ufe0f.\u9700\u6c42\u6536\u96c6\u5de5\u5177 ==============\n \n @tool\n@@ -175,7 +182,7 @@ def select_transport_tool(\n     app_logger.info(f\"\u7528\u6237\u9009\u62e9\u4ea4\u901a\u65b9\u5f0f: {transport_type}\")\n \n     # \u9a8c\u8bc1\u679a\u4e3e\u503c\n-    if transport_type not in [\"flight\", \"train\", \"driving\"]:\n+    if transport_type not in VALID_TRANSPORT_TYPES:\n         return Command(update={\n             \"messages\": [\n                 ToolMessage(\n@@ -185,16 +192,10 @@ def select_transport_tool(\n             ]\n         })\n \n-    transport_labels = {\n-        \"flight\": \"\u822a\u73ed\",\n-        \"train\": \"\u9ad8\u94c1\",\n-        \"driving\": \"\u81ea\u9a7e\"\n-    }\n-\n     return Command(update={\n         \"messages\": [\n             ToolMessage(\n-                content=f\"\u4ea4\u901a\u65b9\u5f0f\u5df2\u786e\u8ba4\uff1a{transport_labels[transport_type]}\",\n+                content=f\"\u4ea4\u901a\u65b9\u5f0f\u5df2\u786e\u8ba4\uff1a{TRANSPORT_LABELS[transport_type]}\",\n                 tool_call_id=runtime.tool_call_id\n             )\n         ],\n",
+    "review_title": "refactor: streamline travel state and transport helpers",
+    "author_login": "mwh1233",
+    "web_url": "https://github.com/mwh1233/travelassistant/pull/5",
+    "created_at": "2026-08-27T10:34:20.994987Z"
+  }
+}

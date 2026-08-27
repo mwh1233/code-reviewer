@@ -1,0 +1,69 @@
+{
+  "review_id": "review-43baa9e7",
+  "provider": "github",
+  "repo": "mwh1233/travelassistant",
+  "input_hash": "43baa9e730215d8abd3504c7f55f538db7870bbcc0c1b13955384f5ec832ebe9",
+  "base_sha": "861777bcc3ef6de9434637de9de8781469772e28",
+  "head_sha": "3f2866333d32085575e9f8a4d3cb3040472fcfa8",
+  "completed_stages": [
+    "input_validated",
+    "snapshot_created",
+    "analysis_prepared",
+    "deterministic_checks_done",
+    "findings_generated",
+    "findings_verified",
+    "outputs_prepared",
+    "publish_attempted",
+    "completed"
+  ],
+  "current_stage": "completed",
+  "next_stage": null,
+  "trace_id": "trace-e254a440d2",
+  "findings": [],
+  "budget": {
+    "token_limit": 20000,
+    "token_used": 20555,
+    "cost_limit": 20.0,
+    "cost_used": 0.023115,
+    "stop_reason": "token budget exceeded after LLM call.",
+    "degrade_level": "stopped",
+    "last_decision": "token budget exceeded after LLM call.",
+    "last_projected_ratio": 0.84915,
+    "last_actual_ratio": 1.02775
+  },
+  "terminal_status": "completed",
+  "error_message": null,
+  "updated_at": "2026-08-27T10:31:32.104297Z",
+  "request": {
+    "provider": "github",
+    "source_kind": "review_url",
+    "review_url": "https://github.com/mwh1233/travelassistant/pull/4",
+    "repo": "mwh1233/travelassistant",
+    "change_number": 4,
+    "base_branch": null,
+    "head_branch": null,
+    "requested_at": "2026-08-27T10:31:01.913919Z"
+  },
+  "snapshot": {
+    "review_id": "review-43baa9e7",
+    "provider": "github",
+    "source_kind": "review_url",
+    "repo": "mwh1233/travelassistant",
+    "review_url": "https://github.com/mwh1233/travelassistant/pull/4",
+    "change_number": 4,
+    "input_hash": "43baa9e730215d8abd3504c7f55f538db7870bbcc0c1b13955384f5ec832ebe9",
+    "base_ref": "mwh-dev",
+    "head_ref": "review/obvious-and-style",
+    "base_sha": "861777bcc3ef6de9434637de9de8781469772e28",
+    "head_sha": "3f2866333d32085575e9f8a4d3cb3040472fcfa8",
+    "changed_files": [
+      "app/core/state.py",
+      "app/tools/state_transition.py"
+    ],
+    "diff_text": "diff --git a/app/core/state.py b/app/core/state.py\nindex 03e09f5..9e04dd4 100644\n--- a/app/core/state.py\n+++ b/app/core/state.py\n@@ -178,6 +178,7 @@ class TravelState(AgentState):\n def create_initial_state(user_id: str, session_id: str) -> TravelState:\n     \"\"\"\u521b\u5efa\u521d\u59cb\u72b6\u6001\"\"\"\n     import time\n+    print(f\"\u521b\u5efa\u65c5\u884c\u72b6\u6001: {user_id}/{session_id}\")\n \n     return TravelState(\n         messages=[],\ndiff --git a/app/tools/state_transition.py b/app/tools/state_transition.py\nindex 3477c41..33398c5 100644\n--- a/app/tools/state_transition.py\n+++ b/app/tools/state_transition.py\n@@ -175,7 +175,7 @@ def select_transport_tool(\n     app_logger.info(f\"\u7528\u6237\u9009\u62e9\u4ea4\u901a\u65b9\u5f0f: {transport_type}\")\n \n     # \u9a8c\u8bc1\u679a\u4e3e\u503c\n-    if transport_type not in [\"flight\", \"train\", \"driving\"]:\n+    if transport_type in [\"flight\", \"train\", \"driving\"]:\n         return Command(update={\n             \"messages\": [\n                 ToolMessage(\n",
+    "review_title": "test: add review defects and style issue",
+    "author_login": "mwh1233",
+    "web_url": "https://github.com/mwh1233/travelassistant/pull/4",
+    "created_at": "2026-08-27T10:31:04.415586Z"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "content": "",
+  "tool_calls": [
+    {
+      "id": "call_00_MvTg4SEIpt1qJxDfBugr9014",
+      "name": "find_references",
+      "arguments": "{\"query\": \"VALID_TRANSPORT_TYPES\"}"
+    },
+    {
+      "id": "call_01_QfAG8S84izmE24h8wviX2386",
+      "name": "find_references",
+      "arguments": "{\"query\": \"TRANSPORT_LABELS\"}"
+    },
+    {
+      "id": "call_02_aGMhRmiwOwqqOnsUOHFA7822",
+      "name": "find_references",
+      "arguments": "{\"query\": \"TransportType\"}"
+    }
+  ],
+  "input_tokens": 13622,
+  "output_tokens": 758,
+  "estimated_cost": 0.015896,
+  "finish_reason": "tool_calls"
+}

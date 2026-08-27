@@ -1,0 +1,8 @@
+SCM snapshot pipeline completed successfully.
+provider=gitlab
+source_kind=review_url
+repo=gitlab-org/cli
+base_sha=854380580a36e0e0d05f13ceefcc49a04bcbddad
+head_sha=3666606b03a099bba8228baa298f42ba37409d36
+changed_files=1
+input_hash=5089bcf43fba8c502ba177a22823b4d3d58565de83f269c69feb454c24fbe2e8

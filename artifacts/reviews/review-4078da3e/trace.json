@@ -1,0 +1,108 @@
+{
+  "trace_id": "trace-cb24aff44d",
+  "review_id": "review-4078da3e",
+  "events": [
+    {
+      "stage": "input_validated",
+      "message": "Review input validated.",
+      "timestamp": "2026-08-26T10:30:23.125915Z"
+    },
+    {
+      "stage": "snapshot_created",
+      "message": "Immutable review snapshot created.",
+      "timestamp": "2026-08-26T10:30:24.960336Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Prepared deterministic diff analysis for 3 files (1 text, 2 binary).",
+      "timestamp": "2026-08-26T10:30:24.966079Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T10:30:24.972086Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T10:30:24.974672Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool list_changed_files started.",
+      "timestamp": "2026-08-26T10:30:24.976466Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool list_changed_files completed.",
+      "timestamp": "2026-08-26T10:30:24.978035Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T10:30:24.981150Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T10:30:24.985625Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T10:30:24.992940Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T10:30:24.996026Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool read_diff started.",
+      "timestamp": "2026-08-26T10:30:24.998669Z"
+    },
+    {
+      "stage": "analysis_prepared",
+      "message": "Tool read_diff completed.",
+      "timestamp": "2026-08-26T10:30:25.003297Z"
+    },
+    {
+      "stage": "deterministic_checks_done",
+      "message": "Deterministic checks completed with 0 candidate findings.",
+      "timestamp": "2026-08-26T10:30:25.006329Z"
+    },
+    {
+      "stage": "findings_generated",
+      "message": "Finding generation placeholder completed.",
+      "timestamp": "2026-08-26T10:30:25.008625Z"
+    },
+    {
+      "stage": "findings_verified",
+      "message": "Finding verification placeholder completed.",
+      "timestamp": "2026-08-26T10:30:25.010512Z"
+    },
+    {
+      "stage": "outputs_prepared",
+      "message": "Output preparation placeholder completed.",
+      "timestamp": "2026-08-26T10:30:25.010512Z"
+    },
+    {
+      "stage": "publish_attempted",
+      "message": "Publish placeholder completed.",
+      "timestamp": "2026-08-26T10:30:25.013121Z"
+    },
+    {
+      "stage": "completed",
+      "message": "Review pipeline completed.",
+      "timestamp": "2026-08-26T10:30:25.017663Z"
+    },
+    {
+      "stage": "completed",
+      "message": "Review resumed from checkpoint.",
+      "timestamp": "2026-08-26T10:31:25.201479Z"
+    }
+  ],
+  "created_at": "2026-08-26T10:30:23.125385Z",
+  "updated_at": "2026-08-26T10:31:25.201479Z"
+}
